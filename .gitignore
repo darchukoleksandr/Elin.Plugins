@@ -1,0 +1,11 @@
+bin/
+obj/
+*.lnk
+.vs
+.DS_Store
+Thumbs.db
+
+Elin
+
+Directory.Build.props
+Directory.Build.props.template
