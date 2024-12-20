@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FullCodexBrowser", "FullCod
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastTravelRedone", "FastTravelRedone\FastTravelRedone.csproj", "{34CC627C-1D35-4872-A3BC-6E84D7655BB7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoArountThatTree", "GoArountThatTree\GoArountThatTree.csproj", "{18FCA34D-C36F-4EFB-98B0-0F4FB75A1503}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoAroundThatTree", "GoAroundThatTree\GoAroundThatTree.csproj", "{18FCA34D-C36F-4EFB-98B0-0F4FB75A1503}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

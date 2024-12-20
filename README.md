@@ -3,5 +3,5 @@ Elin mods
 ## Released
 - [Fast travel redone](./FastTravelRedone/)
 - [Full codex browser](./FullCodexBrowser/)
-- [Go arount that tree](./GoArountThatTree/)
+- [Go around that tree](./GoAroundThatTree/)
 - [Negotiation redone](./NegotiationRedone/)
