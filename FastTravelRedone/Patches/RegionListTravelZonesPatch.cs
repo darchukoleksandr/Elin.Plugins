@@ -23,7 +23,7 @@ namespace FastTravelRedone.Patches
 				}
 				foreach (Zone zone in EClass.game.spatials.Zones)
 				{
-					if ((zone.CanFastTravel || PluginConfig.IgnoreIsKnown.Value) && !zone.IsInstance && (zone.isKnown || EClass.debug.returnAnywhere || PluginConfig.IgnoreIsKnown.Value) && zone.parent == __instance)
+					if ((zone.CanFastTravel || PluginConfig.IgnoreIsKnown.Value) && (!zone.IsClosed || PluginConfig.IgnoreIsClosed.Value) && !zone.IsInstance && (zone.isKnown || EClass.debug.returnAnywhere || PluginConfig.IgnoreIsKnown.Value) && zone.parent == __instance)
 					{
 						__result.Add(zone);
 						zone.tempDist = zone.Dist(EClass.pc.pos);

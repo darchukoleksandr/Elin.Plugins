@@ -10,6 +10,8 @@ public static class PluginConfig
 	public static ConfigEntry<bool> IgnoreIsKnown;
 
 	public static ConfigEntry<bool> IgnoreCanFastTravel;
+
+	public static ConfigEntry<bool> IgnoreIsClosed;
 }
 
 [BepInPlugin("fast.travel.redone", "Fast travel redone", "1.0.0")]
@@ -57,6 +59,8 @@ public class Plugin : BaseUnityPlugin
 		PluginConfig.IgnoreIsKnown = InitializeConfig<bool>("IgnoreIsKnown", isKnownDesc, false);
 		string canFastTravelDesc = "If enabled fast travel to random dungeons becomes available.\nDefault vanilla value: false";
 		PluginConfig.IgnoreCanFastTravel = InitializeConfig<bool>("IgnoreCanFastTravel", canFastTravelDesc, true);
+		string isClosedDesc = "If enabled places that are \"Closed\" will also be listed in fast travel.\nDefault vanilla value: false";
+		PluginConfig.IgnoreIsClosed = InitializeConfig<bool>("IgnoreIsClosed", isClosedDesc, false);
 		Logger.LogInfo("Successfully generated configuration for <Fast travel redone> plugin.");
 	}
 }
