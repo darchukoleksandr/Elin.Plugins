@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<AssemblyName>FastTravelRedone</AssemblyName>
+		<AssemblyName>CustomSkillPotentialCost</AssemblyName>
 		<GenerateAssemblyInfo>False</GenerateAssemblyInfo>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<LangVersion>latest</LangVersion>
@@ -31,6 +31,9 @@
         </Reference>
         <Reference Include="UnityEngine.UI">
           <HintPath>$(ElinManaged)\UnityEngine.UI.dll</HintPath>
+        </Reference>
+        <Reference Include="ModConfigGUI">
+          <HintPath>..\packages\ModConfigGUI.dll</HintPath>
         </Reference>
     </ItemGroup>
 </Project>
