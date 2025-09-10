@@ -1,7 +1,11 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
+using BepInEx.Logging;
 using HarmonyLib;
+using System;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 
 namespace FastTravelRedone;
 
@@ -19,19 +23,32 @@ public class Plugin : BaseUnityPlugin
 {
 	private ConfigFile customConfig;
 
+	internal static new ManualLogSource Logger;
+
 	internal static Plugin Instance { get; private set; }
 
 	private void Awake()
 	{
-		Instance = this;
-		ApplyPatches();
-		GenerateConf();
-		InitializeConfig();
+		try {
+			Logger = base.Logger;
+			ApplyPatches();
+			GenerateConf();
+			InitializeConfig();
+		} catch (Exception ex) {
+			Logger.LogError((object)("Failed to initialize ModConfigGUI: " + ex.Message));
+		}
 	}
 
-	internal static void Log(object payload)
-	{
-		Instance!.Logger.LogInfo(payload);
+	private void Start() {
+		try {
+			if (AppDomain.CurrentDomain.GetAssemblies().Any((Assembly a) => a.GetName().Name == "ModConfigGUI")) {
+				ModConfigGUI.RegisterModConfigGUI(customConfig);
+			} else {
+				Logger.LogInfo("ModConfigGUI not found - skipping GUI initialization");
+			}
+		} catch (Exception ex) {
+			Logger.LogError("Failed to initialize ModConfigGUI: " + ex.Message);
+		}
 	}
 
 	private void ApplyPatches()

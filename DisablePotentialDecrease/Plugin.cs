@@ -45,10 +45,10 @@ public class Plugin : BaseUnityPlugin
 			if (AppDomain.CurrentDomain.GetAssemblies().Any((Assembly a) => a.GetName().Name == "ModConfigGUI")) {
 				ModConfigGUI.RegisterModConfigGUI(configFile);
 			} else {
-				Logger.LogInfo((object)"ModConfigGUI not found - skipping GUI initialization");
+				Logger.LogInfo("ModConfigGUI not found - skipping GUI initialization");
 			}
 		} catch (Exception ex) {
-			Logger.LogError((object)("Failed to initialize ModConfigGUI: " + ex.Message));
+			Logger.LogError("Failed to initialize ModConfigGUI: " + ex.Message);
 		}
 	}
 

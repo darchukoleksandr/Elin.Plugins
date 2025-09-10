@@ -32,5 +32,8 @@
         <Reference Include="UnityEngine.UI">
           <HintPath>$(ElinManaged)\UnityEngine.UI.dll</HintPath>
         </Reference>
+        <Reference Include="ModConfigGUI">
+          <HintPath>..\packages\ModConfigGUI.dll</HintPath>
+        </Reference>
     </ItemGroup>
 </Project>
