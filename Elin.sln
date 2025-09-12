@@ -26,6 +26,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples", "Examples\Exampl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestForStamina", "RestForStamina\RestForStamina.csproj", "{8B4F427B-B622-2AC7-E715-C618FF705527}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WellOptions", "WellOptions\WellOptions.csproj", "{8E3CBFEA-C1FA-B6FD-34BA-4E141ACDF818}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +70,10 @@ Global
 		{8B4F427B-B622-2AC7-E715-C618FF705527}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B4F427B-B622-2AC7-E715-C618FF705527}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B4F427B-B622-2AC7-E715-C618FF705527}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E3CBFEA-C1FA-B6FD-34BA-4E141ACDF818}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E3CBFEA-C1FA-B6FD-34BA-4E141ACDF818}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E3CBFEA-C1FA-B6FD-34BA-4E141ACDF818}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E3CBFEA-C1FA-B6FD-34BA-4E141ACDF818}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

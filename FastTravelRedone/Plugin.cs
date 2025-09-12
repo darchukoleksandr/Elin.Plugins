@@ -35,7 +35,7 @@ public class Plugin : BaseUnityPlugin
 			GenerateConf();
 			InitializeConfig();
 		} catch (Exception ex) {
-			Logger.LogError((object)("Failed to initialize ModConfigGUI: " + ex.Message));
+			Logger.LogError(ex.Message + Environment.NewLine + ex.StackTrace);
 		}
 	}
 
@@ -65,8 +65,7 @@ public class Plugin : BaseUnityPlugin
 
 	private ConfigEntry<T> InitializeConfig<T>(string paramName, string description, T defaultValue)
 	{
-		ConfigFile configFile = this.customConfig;
-		return configFile.Bind<T>("config", paramName, defaultValue, new ConfigDescription(description));
+		return this.customConfig.Bind<T>("config", paramName, defaultValue, new ConfigDescription(description));
 	}
 
 	private void InitializeConfig()
