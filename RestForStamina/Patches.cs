@@ -13,13 +13,31 @@ public class Patches
 		public Func<AIAct.Status, AIAct.Status> itemAction;
 
 		public IEnumerator<AIAct.Status> GetEnumerator() {
-			foreach (AIAct.Status status in enumerator) {
+			var enums = enumerator.GetEnumerator();
+			while (true) {
+				AIAct.Status status;
+				try {
+					if (!enums.MoveNext()) {
+						break;
+					}
+					status = enums.Current;
+				} catch (NullReferenceException) { // base game issue?
+					yield break;
+				} catch (Exception ex) {
+					Plugin.Logger.LogInfo(ex.Message + Environment.NewLine + ex.StackTrace);
+					yield break;
+				}
 				yield return itemAction(status);
 			}
 		}
 
 		IEnumerator IEnumerable.GetEnumerator() {
-			return GetEnumerator();
+			try {
+				return GetEnumerator();
+			} catch (Exception ex) {
+				Plugin.Logger.LogInfo(ex.Message + Environment.NewLine + ex.StackTrace);
+				throw;
+			}
 		}
 	}
 

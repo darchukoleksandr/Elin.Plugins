@@ -33,4 +33,11 @@
           <HintPath>$(ElinManaged)\UnityEngine.UI.dll</HintPath>
         </Reference>
     </ItemGroup>
+	
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Copy
+			SourceFiles="$(TargetDir)\$(ProjectName).dll"
+			DestinationFolder="$(ProjectDir)\assets\" />
+	</Target>
+	
 </Project>

@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using BepInEx;
@@ -61,7 +62,7 @@ namespace WellOptions
 
 		private void GenerateConf()
 		{
-			customConfig = new ConfigFile("well.options.cfg", true);
+			customConfig = new ConfigFile(Path.Combine(Paths.ConfigPath, "well.options.cfg"), true);
 		}
 
 		private void InitializeConfig()
