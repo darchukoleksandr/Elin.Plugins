@@ -1,0 +1,16 @@
+<Project>
+	<PropertyGroup>
+		<ElinDir>C:\Games\Steam\steamapps\common\Elin</ElinDir>
+		<ElinManaged>$(ElinDir)\Elin_Data\Managed</ElinManaged>
+		<bepinexppath>$(ElinDir)\BepInEx\core</bepinexppath>
+	</PropertyGroup>
+	
+	<Target Name="CopyToGameDir" AfterTargets="PostBuildEvent">
+		<Copy
+			SourceFiles="$(TargetDir)\$(ProjectName).dll"
+			DestinationFolder="$(ElinDir)\Package\$(ProjectName)" />
+		<Copy
+			SourceFiles="$(ProjectDir)\assets\package.xml"
+			DestinationFolder="$(ElinDir)\Package\$(ProjectName)" />
+	</Target>
+</Project>

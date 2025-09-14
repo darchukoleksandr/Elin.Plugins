@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+		<AssemblyName>SelectShrineReward</AssemblyName>
+		<GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="UnityEngine.Modules" Version="2021.3.34" IncludeAssets="compile" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="0Harmony">
+          <HintPath>$(bepinexppath)\0Harmony.dll</HintPath>
+        </Reference>
+        <Reference Include="BepInEx.Core">
+          <HintPath>$(bepinexppath)\BepInEx.Core.dll</HintPath>
+        </Reference>
+        <Reference Include="BepInEx.Unity">
+            <HintPath>$(bepinexppath)\BepInEx.Unity.dll</HintPath>
+        </Reference>
+        <Reference Include="Elin">
+            <HintPath>$(ElinManaged)\Elin.dll</HintPath>
+        </Reference>
+        <Reference Include="Plugins.BaseCore">
+            <HintPath>$(ElinManaged)\Plugins.BaseCore.dll</HintPath>
+        </Reference>
+        <Reference Include="Plugins.UI">
+          <HintPath>$(ElinManaged)\Plugins.UI.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UI">
+          <HintPath>$(ElinManaged)\UnityEngine.UI.dll</HintPath>
+        </Reference>
+        <Reference Include="Plugins.Sound">
+          <HintPath>$(ElinManaged)\Plugins.Sound.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+	
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Copy
+			SourceFiles="$(TargetDir)\$(ProjectName).dll"
+			DestinationFolder="$(ProjectDir)\assets\" />
+	</Target>
+	
+</Project>
