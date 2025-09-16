@@ -64,7 +64,8 @@ public class DisenchantingPatches
 				!LastDisenchantedItem.Equals(default(KeyValuePair<Thing, Thing>))) {
 
 				var enchantment = LastDisenchantedItem.elements.dict.TryGetValue(t.refVal);
-				if (enchantment == null || t.encLV != enchantment.Value) { // enchantment or level is different
+				if (enchantment == null) { // enchantment is different
+				//if (enchantment == null || t.encLV != enchantment.Value) { // enchantment or level is different
 					Plugin.Logger.LogInfo("Rune enchantments is not found or different from last disenchanted item. No item will be created");
 					LastDisenchantedItem = null; // something went wrong
 					return;

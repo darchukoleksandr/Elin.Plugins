@@ -37,8 +37,7 @@ public class Patches
 					b.Build();
 				}
 			).SetSize(500f)
-				.SetOnKill(delegate { })
-				.SetTitles("skill");
+				.SetOnKill(delegate { });
 		} catch (Exception ex) {
 			Plugin.Logger.LogError(ex.Message + Environment.NewLine + ex.StackTrace);
 			throw;
