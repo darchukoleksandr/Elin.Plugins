@@ -60,20 +60,20 @@ public class DisenchantingPatches
 	[HarmonyPatch(typeof(Chara), nameof(Chara.Pick))]
 	public static void Pick(ref Chara __instance, Thing t, bool msg = true, bool tryStack = true) {
 		try {
-			if (t.source.id == "rune" && t.refVal != 0 && t.encLV != 0 &&
-				!LastDisenchantedItem.Equals(default(KeyValuePair<Thing, Thing>))) {
+			if (t.source.id == "rune" && t.refVal != 0 && t.encLV != 0 && LastDisenchantedItem != null) {
 
 				var enchantment = LastDisenchantedItem.elements.dict.TryGetValue(t.refVal);
 				if (enchantment == null) { // enchantment is different
 				//if (enchantment == null || t.encLV != enchantment.Value) { // enchantment or level is different
-					Plugin.Logger.LogInfo("Rune enchantments is not found or different from last disenchanted item. No item will be created");
+					Plugin.Logger.LogWarning("Rune enchantments is not found or different from last disenchanted item. No item will be created");
+					Plugin.Logger.LogInfo(Environment.StackTrace);
 					LastDisenchantedItem = null; // something went wrong
 					return;
 				}
 				LastDisenchantedItem.elements.Remove(enchantment.id);
 				Thing dublicate = LastDisenchantedItem.Duplicate(1);
 				EClass.pc.Pick(dublicate, false);
-				LastDisenchantedItem = default;
+				LastDisenchantedItem = null;
 			}
 		} catch (Exception ex) {
 			Plugin.Logger.LogError(ex.Message + Environment.NewLine + ex.StackTrace);
