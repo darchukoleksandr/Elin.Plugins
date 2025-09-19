@@ -23,19 +23,28 @@ public class Patches
 						if (zone.IsPCFaction || EClass.pc.homeZone == zone) {
 							return true;
 						}
+						Zone topZone = zone.GetTopZone();
 						if (PluginConfig.AllowCities.Value && zone is Zone_Civilized city) {
+							if (topZone != null && topZone.uid != city.uid) { // do not display basements and undergrounds of cities
+								return false;
+							}
 							return PluginConfig.OnlyVisited.Value ? zone.GetTopZone().visitCount > 0 : true;
 						}
-						var topZone = zone.GetTopZone();
 						return PluginConfig.OnlyVisited.Value ? (zone?.visitCount > 0 || topZone?.visitCount > 0) : true;
 					})
 					.Cast<Zone>()
+					.GroupBy(item => item.uid).Select(item => item.First()) // remove dungeon dublicates
 					.ToList();
 
 				EClass.debug.instaReturn = true;
 			}
-			__result.Sort((Zone a, Zone b) => a.GetSortVal() - b.GetSortVal());
-        } catch (Exception ex) {
+			__result = __result.OrderByDescending((Zone a) => a.uid == EClass.pc.homeZone.uid)
+				.ThenByDescending((Zone a) => a.IsPCFaction)
+				.ThenByDescending((Zone a) => a is Zone_Civilized)
+				.ThenBy((Zone a) => a.Name)
+				.ThenBy((Zone a) => a.GetTopZone()?.GetSortVal())
+				.ThenBy((Zone a) => a.GetSortVal()).ToList();
+		} catch (Exception ex) {
             Plugin.Logger.LogError(ex.Message + Environment.NewLine + ex.StackTrace);
         }
 		return false;
