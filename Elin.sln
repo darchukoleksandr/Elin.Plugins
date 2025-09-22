@@ -38,6 +38,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterReturn", "BetterRetur
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvulnerableCompanions", "InvulnerableCompanions\InvulnerableCompanions.csproj", "{904665CE-F1AD-64CD-C8B6-709C891ACEB9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoBaitFishing", "NoBaitFishing\NoBaitFishing.csproj", "{23064BB6-D93A-2563-F22C-202A13E3512F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourismList", "TourismList\TourismList.csproj", "{29E37D97-4AA1-2C58-8EFB-3B8EF99F51EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -104,6 +108,14 @@ Global
 		{904665CE-F1AD-64CD-C8B6-709C891ACEB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{904665CE-F1AD-64CD-C8B6-709C891ACEB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{904665CE-F1AD-64CD-C8B6-709C891ACEB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23064BB6-D93A-2563-F22C-202A13E3512F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23064BB6-D93A-2563-F22C-202A13E3512F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23064BB6-D93A-2563-F22C-202A13E3512F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23064BB6-D93A-2563-F22C-202A13E3512F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29E37D97-4AA1-2C58-8EFB-3B8EF99F51EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29E37D97-4AA1-2C58-8EFB-3B8EF99F51EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29E37D97-4AA1-2C58-8EFB-3B8EF99F51EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29E37D97-4AA1-2C58-8EFB-3B8EF99F51EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
