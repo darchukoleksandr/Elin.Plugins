@@ -12,6 +12,7 @@ namespace TourismList;
 public static class PluginConfig
 {
 	public static ConfigEntry<bool> IsModEnabled;
+	public static ConfigEntry<string> SortRule;
 }
 
 [BepInPlugin("tourismList", "TourismList", "1.0.0.0")]
@@ -61,6 +62,9 @@ public class Plugin : BaseUnityPlugin
 		Logger.LogInfo("Generating configuration for <TourismList> plugin...");
 		configFile = new ConfigFile(Path.Combine(Paths.ConfigPath, "TourismList.cfg"), true);
 		PluginConfig.IsModEnabled = InitializeConfig<bool>(configFile, "IsModEnabled", "Is mod enabled.", false);
+		AcceptableValueList<string> sortBy = new AcceptableValueList<string>(["ByNumber", "ByPrice", "ByName"]);
+		PluginConfig.SortRule = configFile.Bind<string>("config", "SortRule", "ByName", new ConfigDescription($"Sorting rule for list of tourism items.", sortBy, Array.Empty<object>()));
+
 		Logger.LogInfo("Successfully generated configuration for <TourismList> plugin.");
 	}
 }

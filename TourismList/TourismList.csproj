@@ -38,9 +38,7 @@
     </ItemGroup>
 	
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Copy
-			SourceFiles="$(TargetDir)\$(ProjectName).dll"
-			DestinationFolder="$(ProjectDir)\assets\" />
+		<Copy SourceFiles="$(TargetDir)\$(ProjectName).dll" DestinationFolder="$(ProjectDir)\assets\" />
 	</Target>
 	
 </Project>
