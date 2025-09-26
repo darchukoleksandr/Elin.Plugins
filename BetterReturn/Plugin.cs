@@ -13,9 +13,13 @@ public static class PluginConfig
 {
 	public static ConfigEntry<bool> IsModEnabled;
 
+	public static ConfigEntry<bool> InstaReturn;
+
 	public static ConfigEntry<bool> AllowCities;
 
 	public static ConfigEntry<bool> OnlyVisited;
+
+	public static ConfigEntry<bool> HideQuestZones;
 }
 
 [BepInPlugin("betterReturn", "BetterReturn", "1.0.0.0")]
@@ -68,6 +72,8 @@ public class Plugin : BaseUnityPlugin
 		PluginConfig.IsModEnabled = InitializeConfig<bool>(configFile, "IsModEnabled", "Is mod enabled.", false);
 		PluginConfig.AllowCities = InitializeConfig<bool>(configFile, "AllowCities", "Cities will be listed in locations list.", false);
 		PluginConfig.OnlyVisited = InitializeConfig<bool>(configFile, "OnlyVisited", "Only visited will be in the list.", true);
+		PluginConfig.HideQuestZones = InitializeConfig<bool>(configFile, "HideQuestZones", "Hide quest related zones after quest is completed (Puppy cave, Nanasu bag, Cursed manor, Nymelle).", true);
+		PluginConfig.InstaReturn = InitializeConfig<bool>(configFile, "InstaReturn", "Enable instant return. Skips default 10+ turn waiting time after spell cast.", false);
 		Logger.LogInfo("Successfully generated configuration for <BetterReturn> plugin.");
 	}
 }

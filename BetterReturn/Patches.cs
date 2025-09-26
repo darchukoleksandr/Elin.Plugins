@@ -30,13 +30,33 @@ public class Patches
 							}
 							return PluginConfig.OnlyVisited.Value ? zone.GetTopZone().visitCount > 0 : true;
 						}
+						if (zone is Zone_DungeonPuppy && EClass.game.quests.GetPhase<QuestPuppy>() == Quest.PhaseComplete) {
+							return !PluginConfig.HideQuestZones.Value;
+						}
+						if (zone is Zone_DungeonFairy && EClass.game.quests.GetPhase<QuestNasu>() == Quest.PhaseComplete) {
+							return !PluginConfig.HideQuestZones.Value;
+						}
+						if (zone is Zone_Nymelle && EClass.game.quests.GetPhase<QuestExploration>() == Quest.PhaseComplete) {
+							return !PluginConfig.HideQuestZones.Value;
+						}
+						if (zone is Zone_VernisMine && EClass.game.quests.GetPhase<QuestVernis>() == Quest.PhaseComplete) {
+							return !PluginConfig.HideQuestZones.Value;
+						}
+						if (zone is Zone_CursedManorDungeon && EClass.game.quests.GetPhase<QuestCursedManor>() == Quest.PhaseComplete) {
+							return !PluginConfig.HideQuestZones.Value;
+						}
+						if (zone is Zone_Lysanas || zone is Zone_Lesimas) { // not implemented quest ?
+							return !PluginConfig.HideQuestZones.Value;
+						}
 						return PluginConfig.OnlyVisited.Value ? (zone?.visitCount > 0 || topZone?.visitCount > 0) : true;
 					})
 					.Cast<Zone>()
 					.GroupBy(item => item.uid).Select(item => item.First()) // remove dungeon dublicates
 					.ToList();
 
-				EClass.debug.instaReturn = true;
+				if (PluginConfig.InstaReturn.Value) {
+					EClass.debug.instaReturn = true;
+				}
 			}
 			__result = __result.OrderByDescending((Zone a) => a.uid == EClass.pc.homeZone.uid)
 				.ThenByDescending((Zone a) => a.IsPCFaction)
