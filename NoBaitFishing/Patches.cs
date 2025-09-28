@@ -11,7 +11,6 @@ namespace NoBaitFishing
 		public static bool Prefix(ref ProgressFish __instance)
 		{
 			if (__instance.owner.IsPC) {
-				Plugin.Logger.LogInfo("Current " + EClass.player.eqBait.Num);
 				EClass.player.eqBait.ModNum(1);
 			}
 			return true;

@@ -15,7 +15,13 @@ public class Patches
 	{
 		public string Name { get; set; }
 
+		public string TraitName { get; set; }
+
 		public int Price { get; set; }
+
+		public int SoloBonus { get; set; }
+
+		public int MassBonus { get; set; }
 
 		public string SourceRefId { get; set; }
 
@@ -24,10 +30,10 @@ public class Patches
 
 	public static void ShowZoneTourismItems() {
 		try {
-			IEnumerable<IGrouping<string, (Thing thing, int)>> items = EMono.game.activeZone.map.things
+			IEnumerable<IGrouping<string, TourismItemModel>> items = EMono.game.activeZone.map.things
 				.Where((Thing thing) => thing.IsInstalled && thing.HasTag(CTAG.tourism))
-				.Select((Thing thing) => (thing, GetPrice(thing)))
-				.GroupBy(item => GetThingSourceRefId(item.thing));
+				.Select((Thing thing) => GetTourismModel(thing))
+				.GroupBy((TourismItemModel model) => model.SourceRefId);
 
 			var sortRule = ClassExtension.ToEnum<UIList.SortMode>(PluginConfig.SortRule.Value, true);
 			switch (sortRule) {
@@ -35,25 +41,23 @@ public class Patches
 					items = items.OrderByDescending(item => item.Count());
 					break;
 				case UIList.SortMode.ByPrice:
-					items = items.OrderByDescending(item => item.Max(group => group.Item2));
-					;
+					items = items.OrderByDescending(item => item.Max(group => group.Price));
 					break;
 				default: // ByName
-					items = items.OrderBy(item => item.First().thing.trait.Name);
+					items = items.OrderBy(item => item.First().TraitName);
 					break;
 			}
-			IGrouping<string, (Thing thing, int)>[] sortedList = items.ToArray();
+			IGrouping<string, TourismItemModel>[] sortedList = items.ToArray();
 
 			EClass.ui.AddLayer<LayerList>().SetList2(sortedList,
-				getText: (IGrouping<string, (Thing, int)> group) => {
-					Thing thing = group.First().Item1;
-					return thing.trait.Name;
+				getText: (IGrouping<string, TourismItemModel> group) => {
+					return group.First().TraitName;
 				},
-				onClick: delegate (IGrouping<string, (Thing, int)> group, ItemGeneral b) {
-					ShowZoneTourismItemsBytCategory(group.First().Item1);
+				onClick: delegate (IGrouping<string, TourismItemModel> group, ItemGeneral b) {
+					ShowZoneTourismItemsBytCategory(items, group.First());
 				},
-				onInstantiate: delegate (IGrouping<string, (Thing, int)> group, ItemGeneral b) {
-					int maxTourismValue = group.Max(item => item.Item2);
+				onInstantiate: delegate (IGrouping<string, TourismItemModel> group, ItemGeneral b) {
+					int maxTourismValue = group.Max(item => item.Price);
 					int categoryCount = group.Count();
 					b.SetSubText($"({maxTourismValue}, {categoryCount})", 200, FontColor.Default, TextAnchor.MiddleRight);
 					b.Build();
@@ -67,23 +71,32 @@ public class Patches
 		}
 	}
 
-	public static void ShowZoneTourismItemsBytCategory(Thing source) {
+	public static void ShowZoneTourismItemsBytCategory(IEnumerable<IGrouping<string, TourismItemModel>> allItems, TourismItemModel source) {
 		try {
-			Thing[] items = EMono.game.activeZone.map.things
-				.Where(thing => thing.IsInstalled && thing.HasTag(CTAG.tourism) &&
-					GetThingSourceRefId(thing) == GetThingSourceRefId(source))
+			int mass = EClass.Branch.Evalue(POLICY.mass_exhibition);
+			int solo = EClass.Branch.Evalue(POLICY.legendary_exhibition);
+
+			TourismItemModel[] items = allItems
+				.Where((IGrouping<string, TourismItemModel> group) => group.Key == source.SourceRefId)
+				.SelectMany((IGrouping<string, TourismItemModel> group) => group.Select(item => item))
+				.OrderByDescending((TourismItemModel model) => model.Price)
 				.ToArray();
 
 			EClass.ui.AddLayer<LayerList>().SetList2(items,
-				getText: (Thing thing) => {
-					return thing.Name;
+				getText: (TourismItemModel model) => {
+					return model.Name;
 				},
-				onClick: delegate (Thing thing, ItemGeneral b) { },
-				onInstantiate: delegate (Thing thing, ItemGeneral b) {
-					int price = GetPrice(thing);
-					b.SetSubText($"({price})", 200, FontColor.Default, TextAnchor.MiddleRight);
+				onClick: delegate (TourismItemModel model, ItemGeneral b) { },
+				onInstantiate: delegate (TourismItemModel model, ItemGeneral b) {
+					int massOrSolo = 0;
+					if (mass > 0) {
+						massOrSolo = model.MassBonus;
+					} else if (solo > 0 && items[0].UId == model.UId) { // only for first item
+						massOrSolo = model.SoloBonus;
+					}
+					b.SetSubText($"({model.Price},{massOrSolo})", 200, FontColor.Default, TextAnchor.MiddleRight);
 					b.Build();
-					b.button1.mainText.rectTransform.sizeDelta = new Vector2(350f, 20f);
+					b.button1.mainText.rectTransform.sizeDelta = new Vector2(650f, 20f);
 				}
 			).SetSize(900f)
 				.SetOnKill(delegate { });
@@ -94,16 +107,11 @@ public class Patches
 	}
 
 	public static string GetThingSourceRefId(Thing thing) {
-		string refId = null;
 		if (thing.category.id == "figure") {
-			refId = $"{thing.category.id}_{thing.c_idRefCard}";
-		} else if (thing.category.id == "hanging") {
-			refId = $"{thing.category.id}_{thing.source.id}";
+			return $"{thing.category.id}_{thing.c_idRefCard}";
 		} else {
-			//Plugin.Logger.LogWarning($"GetThingSourceRefId item was not expected: trait {thing.trait.GetType().Name}, source {thing.source.id}");
-			refId = $"{thing.category.id}_{thing.source.id}";
+			return $"{thing.id}_{thing.idSkin}";
 		}
-		return refId;
 	}
 
 	public static int GetPrice(Thing thing, FactionBranch faction = null) {
@@ -119,16 +127,35 @@ public class Patches
 		return price;
 	}
 
-	public static TourismItemModel GetTourismModel(Thing item) {
-		int price = GetPrice(item);
-		string refId = GetThingSourceRefId(item);
+	public static TourismItemModel GetTourismModel(Thing item, FactionBranch faction = null) {
+		if (faction == null) {
+			faction = EClass.Branch;
+		}
+		int mass = faction.Evalue(POLICY.mass_exhibition);
+		int solo = faction.Evalue(POLICY.legendary_exhibition);
 
+		int price = GetPrice(item);
+		int soloBonus = GetSoloTourismPrice(price, solo);
+		int massBonus = GetMassTourismPrice(price, mass);
+		string refId = GetThingSourceRefId(item);
+		
 		return new TourismItemModel {
-			Name = $"{item.Name} ({item.material.name}, {price})",
+			Name = $"{item.Name} ({item.material.name}, {price}, {soloBonus}, {massBonus})",
+			TraitName = item.trait.Name,
 			Price = price,
+			SoloBonus = soloBonus,
+			MassBonus = massBonus,
 			SourceRefId = refId,
-			UId = item.uid
+			UId = item.uid,
 		};
+	}
+
+	public static int GetSoloTourismPrice(int price, int solo) {
+		return (price * (110 + (int)Mathf.Sqrt(solo) * 4) / 100) - price;
+	}
+
+	public static int GetMassTourismPrice(int price, int mass) {
+		return price / Mathf.Max(20, 30 - (int)Mathf.Sqrt(mass));
 	}
 
 	[HarmonyPostfix]
@@ -136,7 +163,7 @@ public class Patches
 	public static void Postfix(ref Zone __instance) {
 		try {
 			var items = EMono.game.activeZone.map.things.Where((Thing thing) => thing.IsInstalled && thing.HasTag(CTAG.tourism)).ToArray();
-			IEnumerable<TourismItemModel> models = items.Select(GetTourismModel)
+			IEnumerable<TourismItemModel> models = items.Select((Thing thing) => GetTourismModel(thing))
 				.GroupBy(item => item.SourceRefId)
 				.Select(group => group.OrderByDescending(item => item.Price).First()).ToArray();
 			MapItems[__instance.uid] = [];
@@ -236,14 +263,4 @@ public class Patches
 		});
 		return true;
 	}
-
-	//[HarmonyPostfix]
-	//[HarmonyPatch(typeof(TraitHomeBoard), nameof(TraitHomeBoard.TrySetAct))]
-	//public static void Postfix(ref ActPlan p, ref TraitHomeBoard __instance) {
-	//	Card owner = __instance.owner;
-	//	p.TrySetAct("Show tourism items", () => {
-	//		ShowZoneTourismItems();
-	//		return true;
-	//	}, null, 1);
-	//}
 }
