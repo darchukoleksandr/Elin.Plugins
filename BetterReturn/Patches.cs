@@ -48,6 +48,9 @@ public class Patches
 						if (zone is Zone_Lysanas || zone is Zone_Lesimas) { // not implemented quest ?
 							return !PluginConfig.HideQuestZones.Value;
 						}
+						if (zone is Zone_Void) {
+							return topZone.FindDeepestZone() == a;
+						}
 						return PluginConfig.OnlyVisited.Value ? (zone?.visitCount > 0 || topZone?.visitCount > 0) : true;
 					})
 					.Cast<Zone>()

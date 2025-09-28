@@ -162,6 +162,8 @@ public class Patches
 	[HarmonyPatch(typeof(Zone), nameof(Zone.Activate))]
 	public static void Postfix(ref Zone __instance) {
 		try {
+			if (!__instance.IsPCFaction) return;
+
 			var items = EMono.game.activeZone.map.things.Where((Thing thing) => thing.IsInstalled && thing.HasTag(CTAG.tourism)).ToArray();
 			IEnumerable<TourismItemModel> models = items.Select((Thing thing) => GetTourismModel(thing))
 				.GroupBy(item => item.SourceRefId)
