@@ -13,3 +13,5 @@
 - AmmoOptions [Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=3568048741)
 - RuneOptions [Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=3568741642)
 - TourismList [Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=3573422590)
+- BetterReturn [Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=3574477630)
+- ShowOfferingValue [Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=3576629054)
