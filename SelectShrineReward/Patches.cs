@@ -36,17 +36,38 @@ public class Patches
 					}
 				},
 				onInstantiate: (SourceElement.Row a, ItemGeneral b) => {
-					b.button1.SetTooltip((UITooltip tooltip) => {
-						ElementContainer container = new ElementContainer();
-						tooltip.note.Clear();
-						tooltip.note.AddHeader("Party");
-						foreach (Chara member in EClass.pc.party.members) {
-							bool hasSkill = member.elements.dict.ContainsKey(a.id);
-							tooltip.note.AddText(member.Name, hasSkill ? FontColor.Good : FontColor.Bad).Hyphenate();
-							tooltip.note.Space(8);
+					if (PluginConfig.CheckPartyMembers.Value) {
+						b.AddSubButton(EClass.core.refs.icons.fav, () => { }, null,
+							(UITooltip tooltip) => {
+								ElementContainer container = new ElementContainer();
+								tooltip.note.Clear();
+								tooltip.note.AddHeader("Party");
+								foreach (Chara member in EClass.pc.party.members) {
+									bool hasSkill = member.elements.dict.ContainsKey(a.id);
+									tooltip.note.AddText(member.Name, hasSkill ? FontColor.Good : FontColor.Bad).Hyphenate();
+									tooltip.note.Space(4);
+								}
+								tooltip.note.Build();
+							}).icon.SetAlpha(0.4f);
+					}
+					if (PluginConfig.CheckLandsMembers.Value) {
+						foreach (FactionBranch faction in EClass.pc.faction.GetChildren()) {
+							b.AddSubButton(EClass.core.refs.icons.home, () => { }, null,
+								(UITooltip tooltip) => {
+									ElementContainer container = new ElementContainer();
+									tooltip.note.Clear();
+									tooltip.note.AddHeader(faction.owner.Name);
+									foreach (Chara member in faction.members) {
+										if (member.memberType == FactionMemberType.Livestock) continue;
+
+										bool hasSkill = member.elements.dict.ContainsKey(a.id);
+										tooltip.note.AddText(member.Name, hasSkill ? FontColor.Good : FontColor.Bad).Hyphenate();
+										tooltip.note.Space(4);
+									}
+									tooltip.note.Build();
+								}).icon.SetAlpha(0.4f);
 						}
-						tooltip.note.Build();
-					});
+					}
 					b.Build();
 				}
 			).SetSize(500f)

@@ -35,6 +35,9 @@
         <Reference Include="Plugins.Sound">
           <HintPath>$(ElinManaged)\Plugins.Sound.dll</HintPath>
         </Reference>
+        <Reference Include="ModConfigGUI">
+          <HintPath>..\packages\ModConfigGUI.dll</HintPath>
+        </Reference>
     </ItemGroup>
 	
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
