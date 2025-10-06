@@ -1,6 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
+using FastTravelRedone.Patches;
 using HarmonyLib;
 using System;
 using System.IO;
@@ -16,6 +17,8 @@ public static class PluginConfig
 	public static ConfigEntry<bool> IgnoreCanFastTravel;
 
 	public static ConfigEntry<bool> IgnoreIsClosed;
+
+	public static ConfigEntry<bool> SortDungeonToBottom;
 }
 
 [BepInPlugin("fast.travel.redone", "Fast travel redone", "1.0.0")]
@@ -31,8 +34,8 @@ public class Plugin : BaseUnityPlugin
 	{
 		try {
 			Logger = base.Logger;
-			ApplyPatches();
 			GenerateConf();
+			ApplyPatches();
 			InitializeConfig();
 		} catch (Exception ex) {
 			Logger.LogError(ex.Message + Environment.NewLine + ex.StackTrace);
@@ -54,7 +57,8 @@ public class Plugin : BaseUnityPlugin
 	private void ApplyPatches()
 	{
 		Logger.LogInfo("Applying patches for <Fast travel redone> plugin.");
-		new Harmony("fast.travel.redone").PatchAll();
+		Harmony.CreateAndPatchAll(typeof(RegionListTravelZonesPatch));
+		Harmony.CreateAndPatchAll(typeof(LayerTravelGetSortValPatch));
 		Logger.LogInfo("Successfully applied patches for <Fast travel redone> plugin.");
 	}
 
@@ -71,12 +75,14 @@ public class Plugin : BaseUnityPlugin
 	private void InitializeConfig()
 	{
 		Logger.LogInfo("Generating configuration for <Fast travel redone> plugin...");
-		string isKnownDesc = "If enabled all zones will be listed in fast travel list.\nDefault vanilla value: false";
+		string isKnownDesc = "If enabled all zones will be listed in fast travel list.";
 		PluginConfig.IgnoreIsKnown = InitializeConfig<bool>("IgnoreIsKnown", isKnownDesc, false);
-		string canFastTravelDesc = "If enabled fast travel to random dungeons becomes available.\nDefault vanilla value: false";
+		string canFastTravelDesc = "If enabled fast travel to random dungeons becomes available.";
 		PluginConfig.IgnoreCanFastTravel = InitializeConfig<bool>("IgnoreCanFastTravel", canFastTravelDesc, true);
-		string isClosedDesc = "If enabled places that are \"Closed\" will also be listed in fast travel.\nDefault vanilla value: false";
+		string isClosedDesc = "If enabled places that are \"Closed\" will also be listed in fast travel.";
 		PluginConfig.IgnoreIsClosed = InitializeConfig<bool>("IgnoreIsClosed", isClosedDesc, false);
+		string sortDungeonToBottom = "Sort dungeons to the bottom of the list.";
+		PluginConfig.SortDungeonToBottom = InitializeConfig<bool>("SortDungeonToBottom", sortDungeonToBottom, false);
 		Logger.LogInfo("Successfully generated configuration for <Fast travel redone> plugin.");
 	}
 }

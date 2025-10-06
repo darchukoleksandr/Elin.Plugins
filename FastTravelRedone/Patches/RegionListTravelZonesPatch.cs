@@ -37,4 +37,15 @@ namespace FastTravelRedone.Patches
 			return false;
 		}
 	}
+
+	[HarmonyPatch(typeof(LayerTravel), nameof(LayerTravel.GetSortVal))]
+	public class LayerTravelGetSortValPatch
+	{
+		public static void Postfix(ref LayerTravel __instance, ref Zone z, ref int __result) {
+			if (PluginConfig.SortDungeonToBottom.Value && z is Zone_Dungeon) {
+				__result += 1000;
+			}
+			//Plugin.Logger.LogInfo($"GetSortVal: {__result} {z.Name} {z is Zone_Civilized} {z is Zone_Dungeon}");
+		}
+	}
 }
