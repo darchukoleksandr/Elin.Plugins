@@ -20,10 +20,12 @@ public class Patches
 				Msg.SayNothingHappen();
 				return true;
 			}
-			var skills = EClass.sources.elements.rows.Where((SourceElement.Row row) => row.category == "skill").ToList();
+			var skills = EClass.sources.elements.rows
+				.Where((SourceElement.Row row) => row.category == "skill")
+				.OrderBy(item => item.name).ToList();
 			EClass.ui.AddLayer<LayerList>().SetList2(skills,
 				getText: (SourceElement.Row a) => a.name,
-				onClick: delegate (SourceElement.Row a, ItemGeneral b) {
+				onClick: (SourceElement.Row a, ItemGeneral b) => {
 					try {
 						Point point = (instance.owner.ExistsOnMap ? instance.owner.pos : EClass.pc.pos);
 						Thing book = ThingGen.CreateSkillbook(a.id, 1);
@@ -33,7 +35,18 @@ public class Patches
 						Plugin.Logger.LogError(ex.Message + Environment.NewLine + ex.StackTrace);
 					}
 				},
-				onInstantiate: delegate (SourceElement.Row a, ItemGeneral b) {
+				onInstantiate: (SourceElement.Row a, ItemGeneral b) => {
+					b.button1.SetTooltip((UITooltip tooltip) => {
+						ElementContainer container = new ElementContainer();
+						tooltip.note.Clear();
+						tooltip.note.AddHeader("Party");
+						foreach (Chara member in EClass.pc.party.members) {
+							bool hasSkill = member.elements.dict.ContainsKey(a.id);
+							tooltip.note.AddText(member.Name, hasSkill ? FontColor.Good : FontColor.Bad).Hyphenate();
+							tooltip.note.Space(8);
+						}
+						tooltip.note.Build();
+					});
 					b.Build();
 				}
 			).SetSize(500f)
