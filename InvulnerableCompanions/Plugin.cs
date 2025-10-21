@@ -11,8 +11,6 @@ namespace InvulnerableCompanions;
 
 public static class PluginConfig
 {
-	public static ConfigEntry<bool> IsModEnabled;
-
 	public static ConfigEntry<int> DebuffPower;
 }
 
@@ -30,13 +28,9 @@ public class Plugin : BaseUnityPlugin
             Logger.LogInfo("Plugin [InvulnerableCompanions] is loading!");
             Logger.LogInfo("Applying patches for [InvulnerableCompanions] plugin.");
 			InitializeConfig();
-			if (PluginConfig.IsModEnabled.Value) {
-				Logger.LogInfo("Applying patches for [InvulnerableCompanions] plugin.");
-				Harmony.CreateAndPatchAll(typeof(Patches));
-				Logger.LogInfo("Successfully applied patches for [InvulnerableCompanions] plugin.");
-			} else {
-				Logger.LogInfo("Mod is disabled, patches are not applied.");
-			}
+			Logger.LogInfo("Applying patches for [InvulnerableCompanions] plugin.");
+			Harmony.CreateAndPatchAll(typeof(Patches));
+			Logger.LogInfo("Successfully applied patches for [InvulnerableCompanions] plugin.");
 			Logger.LogInfo("Successfully applied patches for [InvulnerableCompanions] plugin.");
             Logger.LogInfo("Plugin [InvulnerableCompanions] is loaded!");
         } catch (Exception ex) {
@@ -63,7 +57,6 @@ public class Plugin : BaseUnityPlugin
 	private void InitializeConfig() {
 		Logger.LogInfo("Generating configuration for <InvulnerableCompanions> plugin...");
 		configFile = new ConfigFile(Path.Combine(Paths.ConfigPath, "InvulnerableCompanions.cfg"), true);
-		PluginConfig.IsModEnabled = InitializeConfig<bool>(configFile, "IsModEnabled", "Is mod enabled.", false);
 		PluginConfig.DebuffPower = InitializeConfig<int>(configFile, "DebuffPower", "Unconscious debuff power.", 200);
 		Logger.LogInfo("Successfully generated configuration for <InvulnerableCompanions> plugin.");
 	}

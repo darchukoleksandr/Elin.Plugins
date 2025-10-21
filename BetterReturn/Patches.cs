@@ -45,12 +45,18 @@ public class Patches
 						if (zone is Zone_CursedManorDungeon && EClass.game.quests.GetPhase<QuestCursedManor>() == Quest.PhaseComplete) {
 							return !PluginConfig.HideQuestZones.Value;
 						}
+						if (zone is Zone_UnderseaTemple && EClass.game.quests.GetPhase<QuestNegotiationDarkness>() == Quest.PhaseComplete) {
+							return !PluginConfig.HideQuestZones.Value;
+						}
 						if (zone is Zone_Lysanas || zone is Zone_Lesimas) { // not implemented quest ?
 							return !PluginConfig.HideQuestZones.Value;
 						}
 						if (zone is Zone_Void) {
 							return topZone.FindDeepestZone() == a;
 						}
+						//if (zone is Zone_Field) {
+						//	return false;
+						//}
 						return PluginConfig.OnlyVisited.Value ? (zone?.visitCount > 0 || topZone?.visitCount > 0) : true;
 					})
 					.Cast<Zone>()

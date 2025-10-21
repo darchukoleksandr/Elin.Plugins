@@ -11,8 +11,6 @@ namespace RuneOptions;
 
 public static class PluginConfig
 {
-    public static ConfigEntry<bool> IsModEnabled;
-
     public static ConfigEntry<bool> IgnoreRuneMaterialHardness;
 
 	public static ConfigEntry<bool> EnableReusableRunes;
@@ -43,14 +41,10 @@ public class Plugin : BaseUnityPlugin
             Logger = base.Logger;
             Logger.LogInfo("Plugin [RuneOptions] is loading!");
             InitializeConfig();
-			if (PluginConfig.IsModEnabled.Value) {
-				Logger.LogInfo("Applying patches for [RuneOptions] plugin.");
-				Harmony.CreateAndPatchAll(typeof(EnchantingPatches));
-				Harmony.CreateAndPatchAll(typeof(DisenchantingPatches));
-				Logger.LogInfo("Successfully applied patches for [RuneOptions] plugin.");
-			} else {
-				Logger.LogInfo("Mod is disabled, patches are not applied.");
-			}
+			Logger.LogInfo("Applying patches for [RuneOptions] plugin.");
+			Harmony.CreateAndPatchAll(typeof(EnchantingPatches));
+			Harmony.CreateAndPatchAll(typeof(DisenchantingPatches));
+			Logger.LogInfo("Successfully applied patches for [RuneOptions] plugin.");
             Logger.LogInfo("Plugin [RuneOptions] is loaded!");
         } catch (Exception ex) {
             Logger.LogError(ex.Message + Environment.NewLine + ex.StackTrace);
@@ -79,7 +73,6 @@ public class Plugin : BaseUnityPlugin
         Logger.LogInfo("Generating configuration for <RuneOptions> plugin...");
 
         configFile = new ConfigFile(Path.Combine(Paths.ConfigPath, "RuneOptions.cfg"), true);
-        PluginConfig.IsModEnabled = InitializeConfig<bool>(configFile, "IsModEnabled", "Is mod enabled.", false);
         PluginConfig.IgnoreRuneMaterialHardness = InitializeConfig<bool>(configFile, "IgnoreRuneMaterialHardness", "If enabled when disenchanting item, the hardness requirement of rune is ignored.", false);
         PluginConfig.EnableReusableRunes = InitializeConfig<bool>(configFile, "EnableReusableRunes", "After enchanting item you will get empty rune back. Material of enchanted rune is not saved so you will receive a Earth rune.", false);
         PluginConfig.MaxRuneAmount = InitializeConfig<int>(configFile, "MaxRuneAmount", "Maximum amount of runes that can be enchanted.", 1);

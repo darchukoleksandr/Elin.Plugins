@@ -10,10 +10,6 @@ internal class Patches
     public static bool CostTrain(Element __instance, ref int __result)
     {
         try {
-            if (!PluginConfig.IsModEnabled.Value) {
-                return true;
-            }
-
 		    __result = PluginConfig.TrainCost.Value;
 		    return false;
         } catch (Exception ex) {
@@ -28,9 +24,6 @@ internal class Patches
     {
         try
         {
-            if (!PluginConfig.IsModEnabled.Value) {
-                return true;
-            }
             __result = PluginConfig.LearnCost.Value;
             return false;
         } catch (Exception ex) {
@@ -44,9 +37,6 @@ internal class Patches
     public static bool Learn(Element __instance, Chara c, Element e, ref int __result)
     {
         try {
-            if (!PluginConfig.IsModEnabled.Value) {
-                return true;
-            }
             if (PluginConfig.IsRelationAffectsPrice.Value && e.source.tag.Contains("guild") && Guild.Current.relation.rank < 2) {
                 __result = PluginConfig.LearnCost.Value * 2;
             } else {
@@ -64,9 +54,6 @@ internal class Patches
     public static bool Train(Element __instance, Chara c, Element _e, ref int __result)
     {
         try {
-            if (!PluginConfig.IsModEnabled.Value) {
-                return true;
-            }
             if (PluginConfig.IsRelationAffectsPrice.Value && _e.source.tag.Contains("guild") && Guild.Current.relation.rank < 2) {
                 __result = PluginConfig.TrainCost.Value * 2;
             } else {

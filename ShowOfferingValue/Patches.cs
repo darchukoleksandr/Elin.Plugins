@@ -17,4 +17,30 @@ public class Patches
 			Plugin.Logger.LogInfo(ex.Message + Environment.NewLine + ex.StackTrace);
 		}
 	}
+
+	//[HarmonyPostfix]
+	//[HarmonyPatch(typeof(ButtonElement), nameof(ButtonElement.Refresh))]
+	//public static void Refresh(ButtonElement __instance) {
+	//	try {
+	//		//__instance.mainText.text += "test1";
+	//		//__instance.subText.text += "test2";
+	//		//if (__instance.tooltip != null) {
+	//		//	__instance.tooltip.text += "test";
+	//		//}
+			
+	//	} catch (Exception ex) {
+	//		Plugin.Logger.LogInfo(ex.Message + Environment.NewLine + ex.StackTrace);
+	//	}
+	//}
+
+	//[HarmonyPostfix]
+	//[HarmonyPatch(typeof(WindowChara), nameof(WindowChara.RefreshInfo))]
+	//public static void RefreshInfo(WindowChara __instance) {
+	//	try {
+	//		Element element = __instance.chara.elements.GetOrCreateElement(ELEMENT.piety);
+	//		__instance.textFaith.text += $": {element.vBase} / {element.vExp}";
+	//	} catch (Exception ex) {
+	//		Plugin.Logger.LogInfo(ex.Message + Environment.NewLine + ex.StackTrace);
+	//	}
+	//}
 }

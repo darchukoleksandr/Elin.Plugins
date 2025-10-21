@@ -11,8 +11,6 @@ namespace CustomSkillPotentialCost;
 
 public static class PluginConfig
 {
-    public static ConfigEntry<bool> IsModEnabled;
-
     public static ConfigEntry<bool> IsRelationAffectsPrice;
 
     public static ConfigEntry<int> LearnCost;
@@ -62,8 +60,6 @@ public class Plugin : BaseUnityPlugin
     {
         Logger.LogInfo("Generating configuration for <CustomSkillPotentialCost> plugin...");
         configFile = new ConfigFile(Path.Combine(Paths.ConfigPath, "CustomSkillPotentialCost.cfg"), true);
-        string isEnabledDesc = "Is mod enabled.\nDefault value: false";
-        PluginConfig.IsModEnabled = InitializeConfig<bool>(configFile, "IsModEnabled", isEnabledDesc, false);
         string isRelationAffectsPriceDesc = "If relation with guild should affect price (count x2 price if not at 2 rank guild member).\nDefault value: true";
         PluginConfig.IsRelationAffectsPrice = InitializeConfig<bool>(configFile, "IsRelationAffectsPrice", isRelationAffectsPriceDesc, true);
         string learnCostDesc = "Cost to learn new skill.\nDefault value: 5";

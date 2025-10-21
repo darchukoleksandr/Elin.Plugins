@@ -11,7 +11,6 @@ namespace TourismList;
 
 public static class PluginConfig
 {
-	public static ConfigEntry<bool> IsModEnabled;
 	public static ConfigEntry<string> SortRule;
 }
 
@@ -29,13 +28,9 @@ public class Plugin : BaseUnityPlugin
             Logger.LogInfo("Plugin [TourismList] is loading!");
             Logger.LogInfo("Applying patches for [TourismList] plugin.");
 			InitializeConfig();
-			if (PluginConfig.IsModEnabled.Value) {
-				Logger.LogInfo("Applying patches for [TourismList] plugin.");
-				Harmony.CreateAndPatchAll(typeof(Patches));
-				Logger.LogInfo("Successfully applied patches for [TourismList] plugin.");
-			} else {
-				Logger.LogInfo("Mod is disabled, patches are not applied.");
-			}
+			Logger.LogInfo("Applying patches for [TourismList] plugin.");
+			Harmony.CreateAndPatchAll(typeof(Patches));
+			Logger.LogInfo("Successfully applied patches for [TourismList] plugin.");
             Logger.LogInfo("Plugin [TourismList] is loaded!");
         } catch (Exception ex) {
             Logger.LogError(ex.Message + Environment.NewLine + ex.StackTrace);
@@ -61,10 +56,8 @@ public class Plugin : BaseUnityPlugin
 	private void InitializeConfig() {
 		Logger.LogInfo("Generating configuration for <TourismList> plugin...");
 		configFile = new ConfigFile(Path.Combine(Paths.ConfigPath, "TourismList.cfg"), true);
-		PluginConfig.IsModEnabled = InitializeConfig<bool>(configFile, "IsModEnabled", "Is mod enabled.", false);
 		AcceptableValueList<string> sortBy = new AcceptableValueList<string>(["ByNumber", "ByPrice", "ByName"]);
 		PluginConfig.SortRule = configFile.Bind<string>("config", "SortRule", "ByName", new ConfigDescription($"Sorting rule for list of tourism items.", sortBy, Array.Empty<object>()));
-
 		Logger.LogInfo("Successfully generated configuration for <TourismList> plugin.");
 	}
 }

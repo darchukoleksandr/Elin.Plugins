@@ -1,11 +1,7 @@
 ﻿using BepInEx;
-using BepInEx.Configuration;
 using BepInEx.Logging;
 using HarmonyLib;
 using System;
-using System.IO;
-using System.Linq;
-using System.Reflection;
 
 namespace ShowOfferingValue;
 
@@ -14,8 +10,6 @@ public class Plugin : BaseUnityPlugin
 {
     internal static new ManualLogSource Logger;
 
-	private ConfigFile configFile;
-	
 	private void Awake()
     {
         try {

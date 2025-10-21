@@ -6,10 +6,6 @@ namespace WellOptions
 	internal class TraitWell_TrySetAct
 	{
 		private static bool Prefix(ref TraitWell __instance, ActPlan p) {
-			if (!ModConfig.IsModEnabled.Value) {
-				return true;
-			}
-
 			TraitWell instance = __instance;
 			p.TrySetAct("actDrink", delegate {
 				if (instance.Charges <= 0) {

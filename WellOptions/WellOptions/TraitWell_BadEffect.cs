@@ -99,10 +99,6 @@ namespace WellOptions
 		//private static bool Prefix(ref TraitWell __instance, ref Chara c)
 		private bool Prefix(ref TraitWell __instance)
         {
-            if (!ModConfig.IsModEnabled.Value)
-            {
-                return true;
-            }
             __instance.ModCharges(+1);
             return false;
         }

@@ -181,7 +181,7 @@ public class Patches
 	[HarmonyPatch(typeof(Card), nameof(Card.SetPlaceState))]
 	static void Postfix(ref Card __instance, PlaceState newState, bool byPlayer = false) {
 		try {
-			if (!__instance.HasTag(CTAG.tourism) || (newState != PlaceState.none && newState != PlaceState.installed)) {
+			if (!EMono.game.activeZone.IsPCFaction || !__instance.HasTag(CTAG.tourism) || (newState != PlaceState.none && newState != PlaceState.installed)) {
 				return;
 			}
 			var thing = __instance.Thing;
@@ -202,7 +202,7 @@ public class Patches
 				MapItems[EMono.game.activeZone.uid][sourceRefId] = GetTourismModel(newItem);
 			}
 		} catch (Exception ex) {
-			Plugin.Logger.LogInfo(ex.Message + Environment.NewLine + ex.StackTrace);
+			Plugin.Logger.LogInfo($"{__instance.Name} {ex.Message}" + Environment.NewLine + ex.StackTrace);
 		}
 	}
 
@@ -236,7 +236,7 @@ public class Patches
 				}
 			}
 		} catch (Exception ex) {
-			Plugin.Logger.LogInfo(ex.Message + Environment.NewLine + ex.StackTrace);
+			Plugin.Logger.LogInfo($"{__instance.Name} {ex.Message}" + Environment.NewLine + ex.StackTrace);
 		}
 	}
 

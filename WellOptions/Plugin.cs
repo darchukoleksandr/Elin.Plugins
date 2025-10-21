@@ -11,7 +11,6 @@ namespace WellOptions
 {
 	public static class ModConfig
 	{
-		public static ConfigEntry<bool> IsModEnabled;
 		public static ConfigEntry<bool> IsNegativeEffectsDisabled;
 		public static ConfigEntry<bool> IsMutationsDisabled;
 		public static ConfigEntry<bool> IsAlwaysPositiveEffectEnabled;
@@ -68,7 +67,6 @@ namespace WellOptions
 		private void InitializeConfig()
 		{
 			Logger.LogInfo((object)"Generating configuration for <Well options> plugin..."); 
-            ModConfig.IsModEnabled = customConfig.Bind<bool>("config", nameof(ModConfig.IsModEnabled), false, new ConfigDescription("Is mod enabled"));
             ModConfig.IsNegativeEffectsDisabled = customConfig.Bind<bool>("config", nameof(ModConfig.IsNegativeEffectsDisabled), false, new ConfigDescription("Is sleed and negative attributes potential disabled"));
             ModConfig.IsMutationsDisabled = customConfig.Bind<bool>("config", nameof(ModConfig.IsMutationsDisabled), false, new ConfigDescription("Is mutations disabled"));
             ModConfig.IsAlwaysPositiveEffectEnabled = customConfig.Bind<bool>("config", nameof(ModConfig.IsAlwaysPositiveEffectEnabled), false, new ConfigDescription("If enabled you will always gain positive attributes potential"));

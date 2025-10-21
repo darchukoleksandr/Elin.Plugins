@@ -11,8 +11,6 @@ namespace DisablePotentialDecrease;
 
 public static class PluginConfig
 {
-    public static ConfigEntry<bool> IsModEnabled;
-
     public static ConfigEntry<bool> IsEnabledForSkills;
 
     public static ConfigEntry<bool> IsEnabledForAttributes;
@@ -61,8 +59,6 @@ public class Plugin : BaseUnityPlugin
     {
         Logger.LogInfo("Generating configuration for <DisablePotentialDecrease> plugin...");
         configFile = new ConfigFile(Path.Combine(Paths.ConfigPath, "disablePotentialDecrease.cfg"), true);
-        string isEnabledDesc = "Is mod enabled.\nDefault value: false";
-        PluginConfig.IsModEnabled = InitializeConfig<bool>(configFile, "IsModEnabled", isEnabledDesc, false);
         string isEnabledForSkillsDesc = "If enabled for skills (Gathering, Carpentery etc).\nDefault value: false";
         PluginConfig.IsEnabledForSkills = InitializeConfig<bool>(configFile, "IsEnabledForSkills", isEnabledForSkillsDesc, false);
         string isEnabledForAttributesDesc = "If enabled for attributes (Endurance, Charisma etc).\nDefault value: false";

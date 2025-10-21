@@ -11,7 +11,6 @@ namespace SelectShrineReward;
 
 public static class PluginConfig
 {
-	public static ConfigEntry<bool> IsModEnabled;
 	public static ConfigEntry<bool> CheckPartyMembers;
 	public static ConfigEntry<bool> CheckLandsMembers;
 }
@@ -29,13 +28,9 @@ public class Plugin : BaseUnityPlugin
             Logger = base.Logger;
             Logger.LogInfo("Plugin [SelectShrineReward] is loading!");
 			InitializeConfig();
-			if (PluginConfig.IsModEnabled.Value) {
-				Logger.LogInfo("Applying patches for [SelectShrineReward] plugin.");
-				Harmony.CreateAndPatchAll(typeof(Patches));
-				Logger.LogInfo("Successfully applied patches for [SelectShrineReward] plugin.");
-			} else {
-				Logger.LogInfo("Mod is disabled, patches are not applied.");
-			}
+			Logger.LogInfo("Applying patches for [SelectShrineReward] plugin.");
+			Harmony.CreateAndPatchAll(typeof(Patches));
+			Logger.LogInfo("Successfully applied patches for [SelectShrineReward] plugin.");
 			Logger.LogInfo("Plugin [SelectShrineReward] is loaded!");
         } catch (Exception ex) {
             Logger.LogError(ex.Message + Environment.NewLine + ex.StackTrace);
@@ -61,7 +56,6 @@ public class Plugin : BaseUnityPlugin
 	private void InitializeConfig() {
 		Logger.LogInfo("Generating configuration for <SelectShrineReward> plugin...");
 		configFile = new ConfigFile(Path.Combine(Paths.ConfigPath, "SelectShrineReward.cfg"), true);
-		PluginConfig.IsModEnabled = InitializeConfig<bool>(configFile, "IsModEnabled", "Is mod enabled.", true);
 		PluginConfig.CheckPartyMembers = InitializeConfig<bool>(configFile, "CheckPartyMembers", "Check party members skills when selecting skill book reward.", true);
 		PluginConfig.CheckLandsMembers = InitializeConfig<bool>(configFile, "CheckLandsMembers", "Check home zone members skills when selecting skill book reward.", true);
 		Logger.LogInfo("Successfully generated configuration for <SelectShrineReward> plugin.");

@@ -11,8 +11,6 @@ namespace AmmoOptions;
 
 public static class PluginConfig
 {
-    public static ConfigEntry<bool> IsModEnabled;
-
     public static ConfigEntry<bool> InfiniteAmmoForPc;
 
     public static ConfigEntry<bool> InfiniteAmmoForParty;
@@ -33,13 +31,9 @@ public class Plugin : BaseUnityPlugin
             Logger = base.Logger;
             Logger.LogInfo("Plugin [AmmoOptions] is loading!");
             InitializeConfig();
-			if (PluginConfig.IsModEnabled.Value) {
-				Logger.LogInfo("Applying patches for [AmmoOptions] plugin.");
-				Harmony.CreateAndPatchAll(typeof(Patches));
-				Logger.LogInfo("Successfully applied patches for [AmmoOptions] plugin.");
-			} else {
-				Logger.LogInfo("Mod is disabled, patches are not applied.");
-			}
+			Logger.LogInfo("Applying patches for [AmmoOptions] plugin.");
+			Harmony.CreateAndPatchAll(typeof(Patches));
+			Logger.LogInfo("Successfully applied patches for [AmmoOptions] plugin.");
             Logger.LogInfo("Plugin [AmmoOptions] is loaded!");
         } catch (Exception ex) {
             Logger.LogError(ex.Message + Environment.NewLine + ex.StackTrace);
@@ -67,7 +61,6 @@ public class Plugin : BaseUnityPlugin
     {
         Logger.LogInfo("Generating configuration for <AmmoOptions> plugin...");
         configFile = new ConfigFile(Path.Combine(Paths.ConfigPath, "AmmoOptions.cfg"), true);
-		PluginConfig.IsModEnabled = InitializeConfig<bool>(configFile, "IsModEnabled", "Is mod enabled.\nDefault value: false", false);
 		PluginConfig.InfiniteAmmoForPc = InitializeConfig<bool>(configFile, "InfiniteAmmoForPc", "Infinite ammo for player.\nDefault value: false", false);
         PluginConfig.InfiniteAmmoForParty = InitializeConfig<bool>(configFile, "InfiniteAmmoForParty", "Infinite ammo for party.\nDefault value: false", false);
         PluginConfig.InfiniteAmmoForFaction = InitializeConfig<bool>(configFile, "InfiniteAmmoForFaction", "Infinite ammo for faction.\nDefault value: false", false);
