@@ -46,7 +46,7 @@ public class DisenchantingPatches
 		if (__result || __instance is not TraitRuneMold instance || !PluginConfig.AllowMoreItemDisenchantment.Value) {
 			return;
 		}
-		if (new[] { "cane", "guns", "bow" }.Contains(c.category.id)) {
+		if (new[] { "cane", "gun", "bow" }.Contains(c.category.id)) {
 			__result = c.rarity <= instance.MaxRarity && !c.c_isImportant;
 		}
 	}

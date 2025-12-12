@@ -43,7 +43,9 @@ public class Patches
 								tooltip.note.Clear();
 								tooltip.note.AddHeader("Party");
 								foreach (Chara member in EClass.pc.party.members) {
-									bool hasSkill = member.elements.dict.ContainsKey(a.id);
+									var skill = member.elements.dict.FirstOrDefault(item => item.Key == a.id);
+									//Plugin.Logger.LogInfo($"skill {skill.Key} member {member.Name} base {skill.Value?.vBase}  total {skill.Value?.Value}");
+									bool hasSkill = skill.Value != null && skill.Value.vBase > 0;
 									tooltip.note.AddText(member.Name, hasSkill ? FontColor.Good : FontColor.Bad).Hyphenate();
 									tooltip.note.Space(4);
 								}
@@ -60,7 +62,9 @@ public class Patches
 									foreach (Chara member in faction.members) {
 										if (member.memberType == FactionMemberType.Livestock) continue;
 
-										bool hasSkill = member.elements.dict.ContainsKey(a.id);
+										var skill = member.elements.dict.FirstOrDefault(item => item.Key == a.id);
+										//Plugin.Logger.LogInfo($"skill {skill.Key} member {member.Name} base {skill.Value?.vBase}  total {skill.Value?.Value}");
+										bool hasSkill = skill.Value != null && skill.Value.vBase > 0;
 										tooltip.note.AddText(member.Name, hasSkill ? FontColor.Good : FontColor.Bad).Hyphenate();
 										tooltip.note.Space(4);
 									}
